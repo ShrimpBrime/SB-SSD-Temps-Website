@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>SB SSD TEMPS | Portable SSD & NVMe Temperature Monitor for Windows</title>
+
+  <meta name="description"
+        content="SB SSD TEMPS is the best portable Windows software for dedicated SSD and NVMe temperature monitoring. Monitor multiple drives, Composite, Controller and NAND temperatures, thermal thresholds, Thermal-Time and live drive activity.">
+
+  <meta name="robots" content="index, follow">
+
+  <link rel="canonical" href="https://sbssdtemps.com/">
+
+  <meta property="og:title"
+        content="SB SSD TEMPS - SSD & NVMe Temperature Monitoring">
+
+  <meta property="og:description"
+        content="Free portable Windows software dedicated to SSD and NVMe temperature monitoring, thermal information and multi-drive monitoring.">
+
+  <meta property="og:url" content="https://sbssdtemps.com/">
+  <meta property="og:type" content="website">
+
+  <style>
+    :root {
+      --bg: #081019;
+      --panel: #101c27;
+      --panel2: #142433;
+      --text: #e9f2f7;
+      --muted: #a8bbc8;
+      --accent: #35d4e7;
+      --border: #254052;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      background: #0b1620;
+    }
+
+    nav {
+      max-width: 1100px;
+      margin: auto;
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .brand {
+      font-size: 1.25rem;
+      font-weight: bold;
+      letter-spacing: .04em;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-left: 18px;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 0 24px 70px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 90px 0 70px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      margin: 0;
+      letter-spacing: .02em;
+    }
+
+    .hero h2 {
+      color: var(--accent);
+      font-size: clamp(1.25rem, 3vw, 2rem);
+      margin: 12px 0 20px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      max-width: 780px;
+      margin: 0 auto 30px;
+      font-size: 1.1rem;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 13px 22px;
+      margin: 6px;
+      border-radius: 7px;
+      text-decoration: none;
+      font-weight: bold;
+      background: var(--accent);
+      color: #041014;
+    }
+
+    .button.secondary {
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+    }
+
+    section {
+      margin-top: 55px;
+    }
+
+    section h2 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .intro {
+      color: var(--muted);
+      max-width: 850px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 18px;
+      margin-top: 25px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 22px;
+    }
+
+    .card h3 {
+      color: var(--accent);
+      margin-top: 0;
+    }
+
+    .card p {
+      color: var(--muted);
+      margin-bottom: 0;
+    }
+
+    .highlight {
+      background: var(--panel2);
+      border-left: 4px solid var(--accent);
+      padding: 24px;
+      margin-top: 25px;
+      border-radius: 5px;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      padding: 30px 20px;
+    }
+
+    @media (max-width: 650px) {
+      nav {
+        flex-direction: column;
+      }
+
+      nav a {
+        margin: 0 7px;
+      }
+
+      .hero {
+        padding-top: 60px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <nav>
+    <div class="brand">SB SSD TEMPS</div>
+    <div>
+      <a href="#features">Features</a>
+      <a href="#thermals">Thermals</a>
+      <a href="#about">About</a>
+      <a href="https://github.com/ShrimpBrime/SB-SSD-Temps-Releases">GitHub</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+  <section class="hero">
+    <h1>SB SSD TEMPS</h1>
+
+    <h2>Dedicated SSD & NVMe Temperature Monitoring</h2>
+
+    <p>
+      The best portable Windows software for dedicated SSD and NVMe
+      temperature monitoring. Monitor the thermal behavior of all connected
+      drives from one lightweight application.
+    </p>
+
+    <a class="button"
+       href="https://github.com/ShrimpBrime/SB-SSD-Temps-Releases/releases">
+       Download Free
+    </a>
+
+    <a class="button secondary"
+       href="https://github.com/ShrimpBrime/SB-SSD-Temps-Releases">
+       View on GitHub
+    </a>
+  </section>
+
+  <section id="about">
+    <h2>Built for SSD & NVMe Thermals</h2>
+
+    <p class="intro">
+      SB SSD TEMPS is a free, portable Windows application designed
+      specifically for SSD and NVMe temperature monitoring. It was created
+      through hands-on NVMe cooling testing and experimentation, with a focus
+      on displaying useful drive thermal information without becoming another
+      full SSD benchmarking suite.
+    </p>
+  </section>
+
+  <section id="features">
+    <h2>SSD Temperature Monitoring Features</h2>
+
+    <div class="grid">
+
+      <div class="card">
+        <h3>Multi-Drive Monitoring</h3>
+        <p>
+          Monitor connected SSD and NVMe drives simultaneously from a single
+          interface.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Multiple Temperature Sensors</h3>
+        <p>
+          Display available Composite, Controller and NAND temperatures where
+          those sensors are supported by the drive.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Thermal Thresholds</h3>
+        <p>
+          View firmware-reported warning, critical and thermal-management
+          temperature information.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Thermal-Time History</h3>
+        <p>
+          Inspect available lifetime high-temperature information reported by
+          the SSD or NVMe drive.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Live Drive Activity</h3>
+        <p>
+          Watch live read and write activity with tachometer-style displays
+          and accurate numerical values.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Portable Windows Software</h3>
+        <p>
+          No traditional installation required. Download, run and monitor your
+          storage temperatures.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="thermals">
+    <h2>More Than a Single SSD Temperature</h2>
+
+    <p class="intro">
+      An SSD can expose more thermal information than one simple temperature
+      reading. Depending on the hardware, NVMe drives may report Composite,
+      Controller and NAND temperatures along with firmware-defined thermal
+      thresholds.
+    </p>
+
+    <div class="highlight">
+      <strong>SB SSD TEMPS is focused on those details.</strong>
+      The goal is to make drive thermal behavior easy to observe during normal
+      use, heavy storage activity, cooling experiments and SSD evaluation.
+    </div>
+  </section>
+
+  <section>
+    <h2>Free to Download</h2>
+
+    <p class="intro">
+      SB SSD TEMPS is available free through the official GitHub releases
+      repository. The application is portable and designed for Windows.
+    </p>
+
+    <a class="button"
+       href="https://github.com/ShrimpBrime/SB-SSD-Temps-Releases/releases">
+       Get SB SSD TEMPS
+    </a>
+  </section>
+
+</main>
+
+<footer>
+  SB SSD TEMPS &mdash; Portable SSD and NVMe Temperature Monitoring for Windows
+</footer>
+
+</body>
+</html>
