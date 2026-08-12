@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SB TBW Tracker | Drive Write Session Tracker for Windows</title>
+
+    <meta name="description"
+          content="SB TBW Tracker is a free, portable Windows application for tracking how much data is written to one or more drives during a user-controlled session.">
+
+    <meta name="keywords"
+          content="TBW tracker, drive write tracker, SSD write monitor, NVMe write monitor, drive endurance, session writes, SSD utility, Windows storage monitor">
+
+    <meta name="author" content="Jon Bauer / ShrimpBrime">
+    <meta name="robots" content="index, follow">
+
+    <link rel="canonical" href="https://sbssdtemps.com/write-tracker/">
+
+    <meta property="og:title" content="SB TBW Tracker">
+    <meta property="og:description"
+          content="Track individual and combined drive writes during any user-controlled session.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sbssdtemps.com/write-tracker/">
+
+    <style>
+        :root {
+            --background: #07141d;
+            --background-alt: #0c1e2b;
+            --card: #122839;
+            --card-hover: #183447;
+            --accent: #28e1d0;
+            --accent-soft: #8cf4eb;
+            --text: #f2f8fc;
+            --muted: #a9c0cf;
+            --border: #235268;
+            --warning: #ffd52a;
+            --maximum-width: 1160px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background:
+                radial-gradient(circle at top right, rgba(40, 225, 208, 0.08), transparent 34rem),
+                var(--background);
+            color: var(--text);
+            font-family: "Segoe UI", Arial, sans-serif;
+            line-height: 1.65;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .container {
+            width: min(calc(100% - 40px), var(--maximum-width));
+            margin: 0 auto;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(7, 20, 29, 0.94);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(12px);
+        }
+
+        .navigation {
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .brand {
+            color: var(--accent);
+            font-size: 1.15rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-decoration: none;
+        }
+
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 22px;
+        }
+
+        nav a {
+            color: var(--muted);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        nav a:hover,
+        nav a:focus {
+            color: var(--accent);
+        }
+
+        .hero {
+            padding: 105px 0 85px;
+            text-align: center;
+        }
+
+        .eyebrow {
+            margin-bottom: 12px;
+            color: var(--accent);
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(2.7rem, 8vw, 5.5rem);
+            line-height: 1;
+            letter-spacing: -0.05em;
+        }
+
+        .hero h2 {
+            margin: 24px 0 16px;
+            color: var(--accent-soft);
+            font-size: clamp(1.35rem, 3vw, 2rem);
+        }
+
+        .hero p {
+            max-width: 760px;
+            margin: 0 auto;
+            color: var(--muted);
+            font-size: 1.15rem;
+        }
+
+        .buttons {
+            margin-top: 34px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px;
+        }
+
+        .button {
+            min-width: 168px;
+            padding: 13px 22px;
+            border: 1px solid var(--accent);
+            border-radius: 4px;
+            color: var(--accent);
+            font-weight: 750;
+            text-align: center;
+            text-decoration: none;
+            transition: 160ms ease;
+        }
+
+        .button.primary {
+            background: var(--accent);
+            color: #031012;
+        }
+
+        .button:hover,
+        .button:focus {
+            background: var(--accent);
+            color: #031012;
+            transform: translateY(-2px);
+        }
+
+        section {
+            padding: 78px 0;
+        }
+
+        section.alternate {
+            background: rgba(12, 30, 43, 0.72);
+            border-top: 1px solid rgba(35, 82, 104, 0.65);
+            border-bottom: 1px solid rgba(35, 82, 104, 0.65);
+        }
+
+        .section-heading {
+            max-width: 760px;
+            margin: 0 auto 42px;
+            text-align: center;
+        }
+
+        .section-heading h2 {
+            margin: 0 0 12px;
+            font-size: clamp(1.9rem, 4vw, 2.7rem);
+        }
+
+        .section-heading p {
+            margin: 0;
+            color: var(--muted);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .feature-card {
+            min-height: 190px;
+            padding: 26px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            transition: 160ms ease;
+        }
+
+        .feature-card:hover {
+            background: var(--card-hover);
+            border-color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .feature-card h3 {
+            margin: 0 0 10px;
+            color: var(--accent);
+        }
+
+        .feature-card p {
+            margin: 0;
+            color: var(--muted);
+        }
+
+        .screenshot {
+            display: block;
+            width: 100%;
+            max-width: 1120px;
+            margin: 0 auto;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            box-shadow: 0 22px 65px rgba(0, 0, 0, 0.35);
+        }
+
+        .split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: start;
+            gap: 42px;
+        }
+
+        .split h2,
+        .download-box h2 {
+            margin-top: 0;
+        }
+
+        .split p,
+        .split li,
+        .download-box p {
+            color: var(--muted);
+        }
+
+        .split ul {
+            padding-left: 22px;
+        }
+
+        .split li {
+            margin-bottom: 9px;
+        }
+
+        .info-panel,
+        .download-box {
+            padding: 30px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 7px;
+        }
+
+        .info-panel strong {
+            color: var(--accent-soft);
+        }
+
+        .release-label {
+            display: inline-block;
+            margin-bottom: 14px;
+            padding: 5px 11px;
+            color: var(--warning);
+            border: 1px solid var(--warning);
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .checksum {
+            padding: 14px;
+            overflow-wrap: anywhere;
+            background: #041017;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--accent-soft);
+            font-family: Consolas, monospace;
+            font-size: 0.88rem;
+        }
+
+        footer {
+            padding: 34px 0;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            text-align: center;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        @media (max-width: 850px) {
+            .feature-grid,
+            .split {
+                grid-template-columns: 1fr;
+            }
+
+            .navigation {
+                padding: 15px 0;
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            nav {
+                gap: 14px;
+            }
+
+            .hero {
+                padding: 75px 0 65px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="container navigation">
+        <a class="brand" href="/">SB SSD TEMPS</a>
+
+        <nav aria-label="Primary navigation">
+            <a href="/">SSD Temps</a>
+            <a href="#features">Features</a>
+            <a href="#operation">How It Works</a>
+            <a href="#download">Download</a>
+            <a href="https://github.com/ShrimpBrime/SB-TBW-Tracker"
+               target="_blank"
+               rel="noopener">GitHub</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+
+    <section class="hero">
+        <div class="container">
+            <div class="eyebrow">ShrimpBrime Storage Utilities</div>
+
+            <h1>SB TBW TRACKER</h1>
+
+            <h2>Drive Write Session Tracker</h2>
+
+            <p>
+                Track how much data is written to one or more drives during a
+                user-controlled session. Monitor individual drives, combined
+                totals and current write activity from one focused Windows utility.
+            </p>
+
+            <div class="buttons">
+                <a class="button primary"
+                   href="https://github.com/ShrimpBrime/SB-TBW-Tracker/releases/latest">
+                    Download RC
+                </a>
+
+                <a class="button"
+                   href="https://github.com/ShrimpBrime/SB-TBW-Tracker"
+                   target="_blank"
+                   rel="noopener">
+                    View on GitHub
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="alternate">
+        <div class="container">
+            <div class="section-heading">
+                <h2>Track Writes Across Your Storage</h2>
+
+                <p>
+                    SB TBW Tracker observes drive-write activity during the exact
+                    period you choose. Use it during file transfers, installations,
+                    updates, backups, content creation, testing or everyday workloads.
+                </p>
+            </div>
+
+            <!-- Upload your application screenshot to:
+                 /images/sb-tbw-tracker.png
+            -->
+            <img class="screenshot"
+                 src="../images/sb-tbw-tracker.png"
+                 alt="SB TBW Tracker showing multiple drives and individual write-session totals">
+        </div>
+    </section>
+
+    <section id="features">
+        <div class="container">
+            <div class="section-heading">
+                <h2>Drive Write Tracking Features</h2>
+
+                <p>
+                    A practical interface for observing individual and combined
+                    storage-write activity.
+                </p>
+            </div>
+
+            <div class="feature-grid">
+
+                <article class="feature-card">
+                    <h3>Multi-Drive Tracking</h3>
+                    <p>
+                        Select and monitor multiple physical drives in the same
+                        session, including supported HDDs, SATA SSDs and NVMe SSDs.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <h3>Individual Sessions</h3>
+                    <p>
+                        Start and stop tracking for individual drives without
+                        interrupting other active drive sessions.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <h3>Combined Totals</h3>
+                    <p>
+                        View the total amount written across all selected drives
+                        while retaining separate results for each device.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <h3>Live Write Rates</h3>
+                    <p>
+                        Observe current write activity using automatically formatted
+                        B/s, KB/s, MB/s and GB/s values.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <h3>Drive-Life TBW</h3>
+                    <p>
+                        View available lifetime-write information when it is exposed
+                        by the drive, controller, storage path and Windows.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <h3>Logs and Screenshots</h3>
+                    <p>
+                        Save session results and capture either the application or
+                        complete desktop for documentation and comparison.
+                    </p>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="operation" class="alternate">
+        <div class="container split">
+
+            <div>
+                <h2>One Session, Clear Results</h2>
+
+                <p>
+                    Select the drives you want to observe, begin tracking, perform
+                    the activity you want to measure and stop the session when the
+                    activity is complete.
+                </p>
+
+                <ul>
+                    <li>Select one or more detected physical drives.</li>
+                    <li>Start all selected drives or track them individually.</li>
+                    <li>Perform the desired Windows or application workload.</li>
+                    <li>Watch session-written totals and live write rates.</li>
+                    <li>Stop tracking and save the results if desired.</li>
+                </ul>
+            </div>
+
+            <aside class="info-panel">
+                <h2>Read-Only Observer</h2>
+
+                <p>
+                    <strong>SB TBW Tracker does not generate a storage workload.</strong>
+                </p>
+
+                <p>
+                    The application observes available Windows drive statistics.
+                    It does not benchmark, optimize, format, partition or intentionally
+                    write test data to the selected drives.
+                </p>
+
+                <p>
+                    Informational read totals are displayed for context. Drive reads
+                    do not consume NAND program/erase endurance in the same manner as
+                    writes.
+                </p>
+            </aside>
+
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="section-heading">
+                <h2>Useful Across Many Workloads</h2>
+
+                <p>
+                    Define the beginning and end of the session yourself.
+                </p>
+            </div>
+
+            <div class="feature-grid">
+
+                <article class="feature-card">
+                    <h3>Software and Game Installation</h3>
+                    <p>
+                        Observe drive writes produced while installing applications,
+                        games, updates or downloadable content.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <h3>File Transfers and Backups</h3>
+                    <p>
+                        Compare the individual and combined writes generated by
+                        copying, moving, synchronizing or backing up data.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <h3>Content-Creation Workloads</h3>
+                    <p>
+                        Monitor session writes caused by rendering, recording,
+                        transcoding, caching or other production activity.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <h3>Storage Testing</h3>
+                    <p>
+                        Record how much data is written during storage evaluations,
+                        controlled tests and performance workloads.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <h3>Application Behavior</h3>
+                    <p>
+                        Observe writes produced by an application over a defined
+                        period without adding another workload.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <h3>Endurance Observation</h3>
+                    <p>
+                        Compare session totals with available lifetime-write
+                        information to better understand drive usage.
+                    </p>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="download" class="alternate">
+        <div class="container">
+            <div class="download-box">
+
+                <span class="release-label">Release Candidate</span>
+
+                <h2>Download SB TBW Tracker v1.5.1.0 RC</h2>
+
+                <p>
+                    The current release is a signed, portable Windows application.
+                    No conventional installation is required. Download the ZIP,
+                    extract the executable and run it.
+                </p>
+
+                <div class="buttons" style="justify-content:flex-start;">
+                    <a class="button primary"
+                       href="https://github.com/ShrimpBrime/SB-TBW-Tracker/releases/latest">
+                        Download Signed RC
+                    </a>
+
+                    <a class="button"
+                       href="https://github.com/ShrimpBrime/SB-TBW-Tracker">
+                        Source Preview
+                    </a>
+                </div>
+
+                <h3>Signed ZIP SHA-256</h3>
+
+                <div class="checksum">
+                    2A7A6510631616EE38F54DE50EFD43AE145BB0B0BDFA7E3E148D44C4742B89BC
+                </div>
+
+                <h3>Signed Executable SHA-256</h3>
+
+                <div class="checksum">
+                    801B2A2B2E6699E55BA8BDFAF2020D1389EF6949B420807182EDC3F5BA7480B0
+                </div>
+
+                <h3>v0.15 Preview Source ZIP SHA-256</h3>
+
+                <div class="checksum">
+                    4E76BBD220491EC6244601AEFBD549FB4B815FDB261A9786BF188BF64CA25CE5
+                </div>
+
+                <p>
+                    Compatibility and reported values depend on the storage device,
+                    firmware, controller, driver and information exposed through
+                    Windows. Unsupported lifetime-write values are displayed as N/A.
+                </p>
+
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <div class="container">
+        <p>
+            SB TBW Tracker — Portable Drive Write Session Tracking for Windows
+        </p>
+
+        <p>
+            Copyright © 2026 Jon Bauer / ShrimpBrime™. All rights reserved.
+        </p>
+
+        <p>
+            <a href="/">SB SSD Temps</a>
+            &nbsp;·&nbsp;
+            <a href="https://github.com/ShrimpBrime/SB-TBW-Tracker">GitHub</a>
+        </p>
+    </div>
+</footer>
+
+</body>
+</html>
